@@ -3,7 +3,6 @@ package mongodbexercicio.marcos.exerciciomarcos.service.service.impl;
 import mongodbexercicio.marcos.exerciciomarcos.model.Pessoa;
 import mongodbexercicio.marcos.exerciciomarcos.repository.PessoaRepository;
 import mongodbexercicio.marcos.exerciciomarcos.service.PessoaService;
-import mongodbexercicio.marcos.exerciciomarcos.utlilitarios.Utilitário;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,7 @@ import java.util.List;
 
 @Service
 public class PessoaServiceImpl implements PessoaService {
-    @Autowired
-    private Utilitário utilitario;
+
     @Autowired
     private PessoaRepository pessoaRepository;
 

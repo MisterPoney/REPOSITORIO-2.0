@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import lombok.SneakyThrows;
 import mongodbexercicio.marcos.exerciciomarcos.model.Pessoa;
 import mongodbexercicio.marcos.exerciciomarcos.service.PessoaService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,11 +39,16 @@ public class PessoaControllerTest {
     private PessoaController pessoaController;
     @Mock
     private PessoaService pessoaService;
+
     @BeforeEach
     public void setup() {
         standaloneSetup(this.pessoaController);
     }
+
     private static final String PESSOA_ID = "123";
+    private static final String PESSOA_TELEFONE= "(11)94445-4643";
+    private static final String PESSOA_NOME= "Marcos Andreo";
+    private static final String PESSOA_IDADE = "18";
 
     @Test
     public void deveObterTodos() throws Exception {
@@ -49,7 +57,7 @@ public class PessoaControllerTest {
         doReturn(pessoasEsperadas).when(pessoaService).obterTodos();
         List<Pessoa> actualPessoas = pessoaController.obterTodos();
         assertEquals(pessoasEsperadas, actualPessoas);
-        assertThat(HttpStatus.OK);
+
     }
 
     @Test
@@ -64,22 +72,45 @@ public class PessoaControllerTest {
     public void criar() {
         Pessoa pessoa = new Pessoa();
         pessoaController.criar(pessoa);
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
         verify(pessoaService, times(1)).criar(any());
         //como verificar se está retornando o HTTPStatus correto?
-        assertThat(HttpStatus.CREATED);
     }
+    @Test
+    public void senaocriar(){
+        Pessoa pessoa = new Pessoa();
+        pessoaController.criar(pessoa);
+        pessoa = null;
+        if (pessoa==null){
 
+        }
+    }
 
     @Test
     public void deletar() {
         Pessoa pessoa = new Pessoa();
         pessoaController.deletar(pessoa);
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
         verify(pessoaService, times(1)).deletar(any());
-        assertThat(HttpStatus.NO_CONTENT);
-    }
-    @Test
-    public void naodeletou(){
 
+    }
+
+    @Test
+    public void naoDeletou() {
+        Pessoa pessoa = new Pessoa();
+        pessoaController.deletar(pessoa);
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
+
+        throw new IllegalArgumentException("Pessoa não foi deletada");
     }
 
 
@@ -88,6 +119,36 @@ public class PessoaControllerTest {
         Pessoa pessoa = new Pessoa();
         pessoaController.alterar(pessoa);
         verify(pessoaService, times(1)).alterar(any());
-        assertThat(HttpStatus.NO_CONTENT);
+
+    }
+
+    @Test
+    public void seNaoAlterar() {
+        Pessoa pessoa = new Pessoa();
+        pessoaController.alterar(pessoa);
+        pessoa = null;
+        if (pessoa == null) {
+            throw new IllegalArgumentException("Erro ao deletar a pessoa");
+        }
+
+    }
+
+
+    //como usar esse valor para os outros métodos??
+    @Test
+    public void criarPessoaNaoNula() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
+    }
+    @Test
+    public void criarPessoaNula(){
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCodigo(null);
+        pessoa.setTelefone(null);
+        pessoa.setIdade(null);
+        pessoa.setNome(null);
     }
 }

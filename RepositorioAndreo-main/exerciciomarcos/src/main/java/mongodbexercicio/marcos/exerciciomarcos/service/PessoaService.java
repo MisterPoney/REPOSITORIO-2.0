@@ -8,7 +8,7 @@ public interface PessoaService {
 
     Pessoa obterPorCodigo(String codigo);
 
-    Pessoa criar(Pessoa pessoa);
+    Pessoa criar (Pessoa pessoa);
 
     Pessoa deletar(Pessoa pessoa);
 

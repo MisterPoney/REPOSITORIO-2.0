@@ -26,6 +26,9 @@ public class PessoaServiceImplTest {
     @Mock
     private PessoaRepository pessoaRepository;
     private static final String PESSOA_ID = "123";
+    private static final String PESSOA_TELEFONE= "(11)94445-4643";
+    private static final String PESSOA_NOME= "Marcos Andreo";
+    private static final String PESSOA_IDADE = "18";
 
     @Test
     public void obterTodos() {
@@ -62,12 +65,15 @@ public class PessoaServiceImplTest {
         }
     }
 
-    //Como fazer teste de falha do delear alterar e criar
     @Test
-    public void criar() {
+    void devecriar() {
         Pessoa pessoa = new Pessoa();
         pessoaService.criar(pessoa);
-        verify(pessoaRepository, times(1)).save(any());
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
+        verify(pessoaService, times(1)).criar(any());
     }
 
     @Test
@@ -80,9 +86,11 @@ public class PessoaServiceImplTest {
     public void naodeletou(){
         Pessoa pessoa = new Pessoa();
         pessoaService.deletar(pessoa);
-        if(pessoa!=null){
+        pessoa.setCodigo(PESSOA_ID);
+        pessoa.setTelefone(PESSOA_TELEFONE);
+        pessoa.setIdade(PESSOA_IDADE);
+        pessoa.setNome(PESSOA_NOME);
 
-        }
     }
 
     @Test
@@ -107,4 +115,5 @@ public class PessoaServiceImplTest {
             throw new IllegalArgumentException("Essas pessoa não existe");
         }
     }
+
 }

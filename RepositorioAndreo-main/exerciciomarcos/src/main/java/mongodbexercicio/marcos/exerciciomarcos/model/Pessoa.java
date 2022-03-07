@@ -9,7 +9,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 @Data
 @Document
-public class Pessoa {
+public class Pessoa{
     @Id
     private String codigo;
     @javax.validation.constraints.NotBlank(message = "Não pode ter valor vazio")
@@ -22,5 +22,6 @@ public class Pessoa {
     @javax.validation.constraints.NotBlank(message = "Não pode ter valor vazio")
     //@Pattern(regexp ="[^0-9]")
     private String telefone;
+
 
 }
